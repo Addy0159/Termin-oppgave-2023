@@ -1,8 +1,8 @@
 <?php
 session_start();
 $server = "localhost";
-$user = "root";
-$pw = "Admin";
+$user = "Addy";
+$pw = "Addy123";
 $db = "termin";
 
 $conn = mysqli_connect($server, $user, $pw, $db);
