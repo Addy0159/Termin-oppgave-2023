@@ -8,9 +8,8 @@ $db = "termin";
 $conn = mysqli_connect($server, $user, $pw, $db);
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = mysqli_connect($server, $user, $pw, $db) or die ('noe gikk galt');
+
 
 // Process login form
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
