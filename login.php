@@ -1,44 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digistore</title>
+    <link rel="icon" type="image/x-icon" href="Bilder/Digistore-logos/Digistore-logos_white.png">
+</head>
+<body>
+<button  type="button" class="collapsible">Menu</button>
+    <div class="head">
+        <header>
+            <img id="Logo" src="Bilder/Digistore-logos/Digistore-logos_white.png" alt="Digistore-logos">
+            <a href="Index.html">Home</a>
+            <a href="VRs.html">VR</a>
+            <a href="VR-Accessory.html">VR-Accessory</a>
+            <a href="Cameras.html">Camera</a>
+            <a href="Camera-Accessory.html">Camera-Accessory</a>
+            <a href="Hardware&Software.html">Hardware/Software</a>
+            <a id="CA" href="Cart.html"><img src="Bilder/Cart-white.png" alt="cart" id="cart"><p>Cart</p></a>
+        </header>
+    </div>
+
+    <button id="dark" onclick="dark()">Dark</button>
+
+    <button id="redirectButton" >Login inn</button>
 <?php
-session_start();
-$server = "localhost";
-$user = "Addy";
-$pw = "Addy123";
-$db = "termin";
+        if(isset($_POST['submit'])){
+            //Gjøre om POST-data til variabler
+            $brukernavn = $_POST['brukernavn'];
+            $passord = md5($_POST['passord']);
+            $epost = $_POST['epost'];
+            
+            //Koble til databasen
+            $dbc = mysqli_connect('localhost', 'root', 'Admin', 'kunder')
+              or die('Error connecting to MySQL server.');
+            
+            //Gjøre klar SQL-strengen
+            $query = "SELECT username, password, email from users where username='$brukernavn' and password='$passord' and email='$epost'";
+            
+            echo $query;
+            
+            //Utføre spørringen
+            $result = mysqli_query($dbc, $query)
+              or die('Error querying database.');
+            
+            //Koble fra databasen
+            mysqli_close($dbc);
 
-$conn = mysqli_connect($server, $user, $pw, $db) or die ('noe gikk galt');
-
-// Process login form
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = md5($_POST["password"]);
-    $email = $_POST["email"];
-
-//  Gets the info from the database
-    $sql = "SELECT id, username, password, email FROM user WHERE username = '$username'";
-    $result = $conn->query($sql);
-
-//  Checks that everything was done right 
-   if ($result->num_rows > 0) {
-      $row = $result->fetch_assoc();
-        if ($password == $row["password"]) {
-            header("Location:Index.html ");
-        } else {
-            echo "Invalid password";
+            //Sjekke om spørringen gir resultater
+            if($result->num_rows > 0){
+                //Gyldig login
+                header('location: success.html');
+            } else {
+                //Ugyldig login
+                header('location: failure.html');
+            }
         }
-    } else {
-        echo "User not found";
-    }
-}
-
-if ($result = mysqli_query($con, $sql)) {
-    echo "Returned rows are: " . mysqli_num_rows($result);
-    // Free result set
-    mysqli_free_result($result);
-  }
-
-
-
-
-
-mysql_close($conn);
-?>
+    ?>
+    <script src="script.js"></script>
+</body>
+</html>

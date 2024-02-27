@@ -1,5 +1,3 @@
-/* Code for Dark Mode*/
-
 console.log(localStorage.getItem("darkmode"))
 
 if (localStorage.getItem("darkmode") == "dark") {
@@ -19,14 +17,23 @@ function dark() {
     }
 }
 
-/* Code for products to to be set in localStorage  */
+document.addEventListener("DOMContentLoaded", function () {
+    const redirectButton = document.getElementById("redirectButton");
+
+    redirectButton.addEventListener("click", function () {
+        // Use the window.location.href to redirect to the desired URL.
+        window.location.href = "http://localhost/Arsoppgave/login.html"; // Replace with your target URL
+    });
+});
+
+
 
 let allProducts;
 
 if (localStorage.getItem("cart")) {
     allProducts = JSON.parse(localStorage.getItem("cart"))
 } else {
-    allProducts = [
+        allProducts = [
         { name: "Kingston FURY Beast RGB DDR4 3200MHz 16GB", price: 899, quantity: 0, id: "RAM16", img: "Bilder/Produkter/RAM-16g.png" },
         { name: "GOPro-case", price: 648, quantity: 0, id: "GOpro-case", img: "Bilder/Produkter/GOpro-case.png" },
         { name: "GoPro HERO10 Black", price: 5990, quantity: 0, id: "GOPRO", img: "Bilder/Produkter/GOpro.png" },
@@ -52,10 +59,8 @@ if (localStorage.getItem("cart")) {
         { name: "Vlogger Shotgun Microphone - ECM-G1", price: 1615, quantity: 0, id: "Shotgun", img: "Bilder/Produkter/Accessories.png" },
         { name: "Adobe Creative Cloud 1-YEAR SUBSCRIPTION", price: 6999, quantity: 0, id: "Adobe", img: "Bilder/Produkter/adobe.png" },
         { name: "Samsung 870 QVO 2.5'' SSD 8TB", price: 6095, quantity: 0, id: "Samsung", img: "Bilder/Produkter/Samsung.png" },
-    ]
+            ]
 }
-
-/* Code to add products to the cart  */
 
 if (location.href.includes("Index")) {
     document.getElementById("RAM16").addEventListener("click", function () { addToCart(0) });
@@ -106,8 +111,6 @@ if (location.href.includes("Hardware&Software")) {
     document.getElementById("Samsung").addEventListener("click", function () { addToCart(24) });
 }
 
-/* Code to display the items in the cart */
-
 function displaycart() {
     let totalSum = 0;
     for (let index = 0; index < allProducts.length; index++) {
@@ -150,16 +153,12 @@ function displaycart() {
 
 }
 
-/* Code to get the products from localStorage to the cart page */
-
 function addToCart(product) {
     allProducts[product].quantity++;
     console.log(allProducts)
     localStorage.setItem('cart', JSON.stringify(allProducts));
     allProducts = JSON.parse(localStorage.getItem("cart"))
 }
-
-/* Code to empty the cart */
 
 function emptyCart() {
     window.localStorage.removeItem("cart");
@@ -169,8 +168,6 @@ function emptyCart() {
     Summen.innerHTML = ''
 
 }
-
-/* Gives more info about the product */
 
 function Pro1() {
     var popup = document.getElementById("myPopup1");
@@ -191,13 +188,13 @@ var coll = document.getElementsByClassName("collapsible");
 var i;
 
 for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var head = this.nextElementSibling;
-        if (head.style.display === "block") {
-            head.style.display = "none";
-        } else {
-            head.style.display = "block";
-        }
-    });
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var head = this.nextElementSibling;
+    if (head.style.display === "block") {
+        head.style.display = "none";
+    } else {
+        head.style.display = "block";
+    }
+  });
 } 
